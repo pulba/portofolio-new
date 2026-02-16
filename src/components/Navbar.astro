@@ -1,0 +1,124 @@
+---
+import { Image } from "astro:assets";
+import logo from "../assets/logo.png";
+
+const navLinks = [
+    { name: "Home", href: "#hero" },
+    { name: "About", href: "#about" },
+    { name: "Services", href: "#services" },
+    { name: "Projects", href: "#projects" },
+    { name: "Skills", href: "#skills" },
+    { name: "Certificates", href: "#certificates" },
+    { name: "Contact", href: "#contact" },
+];
+---
+
+<nav
+    id="navbar"
+    class="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+            <!-- Logo -->
+            <div class="flex-shrink-0">
+                <a href="#hero" class="flex items-center gap-2 group">
+                    <Image
+                        src={logo}
+                        alt="Syaiful Bahri Logo"
+                        class="h-8 w-auto transition-transform duration-300 group-hover:scale-105"
+                        loading="eager"
+                    />
+                </a>
+            </div>
+
+            <!-- Desktop Navigation -->
+            <div class="hidden md:block">
+                <div class="ml-10 flex items-baseline space-x-4">
+                    {
+                        navLinks.map((link) => (
+                            <a
+                                href={link.href}
+                                class="text-gray-300 hover:text-teal-400 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+                            >
+                                {link.name}
+                            </a>
+                        ))
+                    }
+                </div>
+            </div>
+
+            <!-- Mobile menu button -->
+            <div class="md:hidden">
+                <button
+                    id="mobile-menu-btn"
+                    type="button"
+                    class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-teal-500 transition-colors"
+                    aria-controls="mobile-menu"
+                    aria-expanded="false"
+                >
+                    <span class="sr-only">Open main menu</span>
+                    <!-- Icon when menu is closed -->
+                    <svg
+                        class="block h-6 w-6"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        aria-hidden="true"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                    <!-- Icon when menu is open -->
+                    <svg
+                        class="hidden h-6 w-6"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        aria-hidden="true"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div class="md:hidden hidden" id="mobile-menu">
+        <div
+            class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-slate-900/95 backdrop-blur-lg border-t border-slate-800"
+        >
+            {
+                navLinks.map((link) => (
+                    <a
+                        href={link.href}
+                        class="mobile-menu-link text-gray-300 hover:text-teal-400 hover:bg-slate-800 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200"
+                    >
+                        {link.name}
+                    </a>
+                ))
+            }
+        </div>
+    </div>
+</nav>
+
+<style>
+    #navbar {
+        background: transparent;
+    }
+
+    #navbar.scrolled {
+        background: rgba(15, 23, 42, 0.95);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+</style>
