@@ -4,31 +4,16 @@ export default {
     theme: {
         extend: {
             colors: {
-                primary: {
-                    50: '#f0fdfa',
-                    100: '#ccfbf1',
-                    200: '#99f6e4',
-                    300: '#5eead4',
-                    400: '#2dd4bf',
-                    500: '#14b8a6',
-                    600: '#0d9488',
-                    700: '#0f766e',
-                    800: '#115e59',
-                    900: '#134e4a',
+                swiss: {
+                    red: '#e11d48',
+                    dark: '#09090b',
+                    surface: '#121215',
+                    border: 'rgba(255, 255, 255, 0.1)',
                 },
             },
             fontFamily: {
-                sans: ['Poppins', 'system-ui', 'sans-serif'],
-            },
-            animation: {
-                'float': 'float 6s ease-in-out infinite',
-                'gradient': 'gradient 8s ease infinite',
-                'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
-                'slide-up': 'slide-up 0.6s ease-out',
-                'slide-down': 'slide-down 0.3s ease-out',
-                'fade-in': 'fade-in 0.5s ease-out',
-                'bounce-in': 'bounce-in 0.6s ease-out',
-                'spin-slow': 'spin-slow 20s linear infinite',
+                sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+                mono: ['JetBrains Mono', 'monospace'],
             },
         },
     },

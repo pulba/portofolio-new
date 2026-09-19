@@ -1,151 +1,80 @@
 ---
-import { Image } from "astro:assets";
-import logo from "../assets/logo.png";
+// Swiss Minimalist PageLoader
 ---
 
 <div
     id="page-loader"
-    class="fixed inset-0 z-[9999] flex items-center justify-center bg-slate-950"
+    class="fixed inset-0 z-[9999] flex flex-col justify-between bg-neutral-950 p-8 md:p-16 text-neutral-100 font-mono select-none"
 >
-    <!-- Animated Background -->
-    <div class="absolute inset-0 overflow-hidden">
-        <div
-            class="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-br from-teal-500/20 to-blue-500/20 rounded-full blur-3xl animate-pulse"
-        >
+    <!-- Top Bar -->
+    <div class="flex justify-between items-center text-xs tracking-widest uppercase text-neutral-500 hairline-b pb-4">
+        <span>SYAIFUL BAHRI // 2026</span>
+        <span>INDEX / PORTFOLIO</span>
+    </div>
+
+    <!-- Center Content -->
+    <div class="flex flex-col gap-4">
+        <div class="flex items-baseline gap-4">
+            <span class="text-xs text-rose-500 tracking-widest uppercase">STATUS //</span>
+            <span class="text-sm text-neutral-400 tracking-wider">LOADING ARCHIVE</span>
         </div>
-        <div
-            class="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-tl from-blue-500/20 to-purple-500/20 rounded-full blur-3xl animate-pulse"
-            style="animation-delay: 0.5s;"
-        >
+        <div class="text-6xl md:text-8xl font-sans font-black tracking-tighter" id="loader-counter">
+            00%
+        </div>
+        <div class="w-full h-[1px] bg-neutral-800 relative overflow-hidden mt-4">
+            <div id="loader-progress" class="absolute left-0 top-0 h-full bg-rose-600 transition-all duration-300 w-0"></div>
         </div>
     </div>
 
-    <!-- Loader Content -->
-    <div class="relative z-10 flex flex-col items-center gap-6">
-        <!-- Logo with Animation -->
-        <div class="loader-logo">
-            <Image
-                src={logo}
-                alt="Loading..."
-                class="w-24 h-24 object-contain"
-                loading="eager"
-            />
-        </div>
-
-        <!-- Loading Text -->
-        <div class="flex flex-col items-center gap-2">
-            <p class="text-xl font-semibold text-gradient animate-pulse">
-                Loading
-            </p>
-
-            <!-- Animated Dots -->
-            <div class="flex gap-1">
-                <span class="loading-dot"></span>
-                <span class="loading-dot" style="animation-delay: 0.2s;"></span>
-                <span class="loading-dot" style="animation-delay: 0.4s;"></span>
-            </div>
-        </div>
-
-        <!-- Progress Bar -->
-        <div class="w-64 h-1 bg-slate-800 rounded-full overflow-hidden">
-            <div
-                class="loading-bar h-full bg-gradient-to-r from-teal-500 via-blue-500 to-purple-500"
-            >
-            </div>
-        </div>
+    <!-- Bottom Bar -->
+    <div class="flex justify-between items-center text-xs tracking-widest text-neutral-500 uppercase hairline-t pt-4">
+        <span>INTERACTION / DEV & DESIGN</span>
+        <span>SWISS MINIMALIST v3.0</span>
     </div>
 </div>
 
 <style>
-    /* Logo Animation */
-    .loader-logo {
-        animation: logoFloat 2s ease-in-out infinite;
+    #page-loader {
+        transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
-
-    @keyframes logoFloat {
-        0%,
-        100% {
-            transform: translateY(0px) scale(1);
-        }
-        50% {
-            transform: translateY(-10px) scale(1.05);
-        }
-    }
-
-    /* Loading Dots */
-    .loading-dot {
-        width: 8px;
-        height: 8px;
-        background: linear-gradient(135deg, #14b8a6, #3b82f6);
-        border-radius: 50%;
-        animation: dotBounce 1.4s ease-in-out infinite;
-    }
-
-    @keyframes dotBounce {
-        0%,
-        80%,
-        100% {
-            transform: scale(0.8);
-            opacity: 0.5;
-        }
-        40% {
-            transform: scale(1.2);
-            opacity: 1;
-        }
-    }
-
-    /* Progress Bar Animation */
-    .loading-bar {
-        width: 0%;
-        animation: progressBar 2s ease-in-out forwards;
-    }
-
-    @keyframes progressBar {
-        0% {
-            width: 0%;
-        }
-        100% {
-            width: 100%;
-        }
-    }
-
-    /* Fade Out Animation */
     #page-loader.fade-out {
-        animation: fadeOut 0.5s ease-out forwards;
-    }
-
-    @keyframes fadeOut {
-        to {
-            opacity: 0;
-            visibility: hidden;
-        }
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
     }
 </style>
 
 <script>
-    // Hide loader when page is fully loaded
-    window.addEventListener("load", () => {
-        const loader = document.getElementById("page-loader");
-        if (loader) {
-            // Add a small delay for smoother transition
-            setTimeout(() => {
-                loader.classList.add("fade-out");
-                // Remove from DOM after animation
-                setTimeout(() => {
-                    loader.remove();
-                }, 500);
-            }, 500);
-        }
-    });
+    const counter = document.getElementById("loader-counter");
+    const progress = document.getElementById("loader-progress");
+    const loader = document.getElementById("page-loader");
 
-    // Also hide loader after max 3 seconds as fallback
+    let count = 0;
+    const interval = setInterval(() => {
+        count += Math.floor(Math.random() * 15) + 5;
+        if (count >= 100) {
+            count = 100;
+            clearInterval(interval);
+            if (counter) counter.textContent = "100%";
+            if (progress) progress.style.width = "100%";
+
+            setTimeout(() => {
+                if (loader) {
+                    loader.classList.add("fade-out");
+                    setTimeout(() => loader.remove(), 600);
+                }
+            }, 300);
+        } else {
+            if (counter) counter.textContent = (count < 10 ? "0" : "") + count + "%";
+            if (progress) progress.style.width = count + "%";
+        }
+    }, 40);
+
+    // Fallback safeguard
     setTimeout(() => {
-        const loader = document.getElementById("page-loader");
         if (loader && !loader.classList.contains("fade-out")) {
             loader.classList.add("fade-out");
-            setTimeout(() => {
-                loader.remove();
-            }, 500);
+            setTimeout(() => loader.remove(), 600);
         }
-    }, 3000);
+    }, 2000);
 </script>
